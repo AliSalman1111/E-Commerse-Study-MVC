@@ -9,9 +9,13 @@ namespace E_commerse_study.Repository
 
     public class CategoryRepository : ICategoryRepository
     {
-         AplicationDbContext db = new AplicationDbContext();
+        AplicationDbContext db;//= new AplicationDbContext();
+        public CategoryRepository(AplicationDbContext db) 
+        {
+            this.db = db;
+        }
 
-            public List<Category> GetAll(string? products =null)
+        public List<Category> GetAll(string? products =null)
         {
             if (products == null)
             {

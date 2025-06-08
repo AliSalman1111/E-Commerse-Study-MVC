@@ -5,9 +5,20 @@ namespace E_commerse_study.Data
 {
 	public class AplicationDbContext:DbContext
 	{
-		public DbSet<Product> products { get; set; }
+        public AplicationDbContext(DbContextOptions<AplicationDbContext> dbContextOptions) 
+			
+			: base(dbContextOptions)
+        {
+
+        }
+        public DbSet<Product> products { get; set; }
 		public DbSet<Category> categories { get; set; }
         public DbSet<Company> companies { get; set; }
+
+        public AplicationDbContext()
+		{
+
+		}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

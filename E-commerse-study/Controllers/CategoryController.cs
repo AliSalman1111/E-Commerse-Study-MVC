@@ -1,6 +1,7 @@
 ﻿using E_commerse_study.Data;
 using E_commerse_study.Models;
 using E_commerse_study.Repository;
+using E_commerse_study.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,14 @@ namespace E_commerse_study.Controllers
 {
     public class CategoryController : Controller
     {
-       // AplicationDbContext db = new AplicationDbContext();
+        // AplicationDbContext db = new AplicationDbContext();
 
-        CategoryRepository CategoryRepository =new CategoryRepository();
+        ICategoryRepository CategoryRepository; //=new CategoryRepository();
 
+        public CategoryController(ICategoryRepository categoryRepository)
+        {
+            CategoryRepository = categoryRepository;
+        }
         public IActionResult Index()
         {
            //var categories = db.categories.Include(e => e.Products).ToList();

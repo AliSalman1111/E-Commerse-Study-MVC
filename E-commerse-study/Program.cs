@@ -1,3 +1,8 @@
+using E_commerse_study.Data;
+using E_commerse_study.Repository;
+using E_commerse_study.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
+
 namespace E_commerse_study
 {
     public class Program
@@ -8,7 +13,10 @@ namespace E_commerse_study
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<AplicationDbContext>(
+               option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+               );
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

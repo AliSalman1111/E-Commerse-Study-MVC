@@ -1,0 +1,46 @@
+﻿@model Company
+
+
+<h2>Create New company</h2>
+
+
+ <form asp-action="Create" asp-controller="Company" > 
+
+    <div class="mb-3">  
+        <label for="exampleInputEmail1" class="form-label">Name</label>  
+         <input class="form-control" asp-for="Name"> 
+    </div>  
+    <div class="mb-3">  
+        <label for="exampleInputEmail1" class="form-label">Address</label>
+        <input class="form-control" asp-for="Address"> 
+    </div>  
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Description</label>
+        <input class="form-control" asp-for="Description">
+    </div>
+
+    <span asp-validation-for="Name" class="text-warning"></span>  
+    <br />  
+<button type="submit" class="btn btn-primary">Submit</button> 
+
+
+ </form> 
+
+@* @ @using (Html.BeginForm(actionName: "Create", controllerName: "Category", FormMethod.Post)) 
+{
+     <div class="mb-3">
+
+        @Html.LabelFor(e => e.Name, new {@class="form-label"})
+        @Html.TextBoxFor(e => e.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.Name, "error", new {@class="text-warning"})
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+*@
+
+
+@section Scripts {
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

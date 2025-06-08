@@ -1,0 +1,56 @@
+﻿@model Product
+<h2>Edit New Product</h2>
+
+<form action="/Product/Edit" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Name</label>
+        <input type="hidden" class="form-control" id="exampleInputEmail1" name="Id" aria-describedby="emailHelp" value="@Model.Id">
+        <span asp-validation-for="Name" class="text-warning"></span>
+
+        <input type="text" class="form-control" id="exampleInputEmail1" name="Name" aria-describedby="emailHelp" value="@Model.Name">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputDescription" class="form-label">Description</label>
+        <input type="text" class="form-control" id="exampleInputDescription" name="Description" aria-describedby="emailHelp" value="@Model.Description">
+        <span asp-validation-for="Description" class="text-warning"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputphoto" class="form-label">Photo</label>
+        <input type="file" class="form-control" id="exampleInputphoto" name="photo" aria-describedby="emailHelp" onchange="previewImage(event)" value="@Model.photo">
+        @* <input type="hidden" name="photo" value="@Model.photo" /> *@
+        <br>
+        <img id="photoPreview" src="~/images/@Model.photo" alt="Image Preview" style=" width: 200px; height: auto;">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputprice" class="form-label">Price</label>
+        <input type="number" class="form-control" id="exampleInputprice" name="price" aria-describedby="emailHelp" value="@Model.price">
+        <span asp-validation-for="price" class="text-warning"></span>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputcategoryId" class="form-label">Category Name</label>
+        @* <input type="number" class="form-control" id="exampleInputprice" name="categoryId" aria-describedby="emailHelp" value="@Model.categoryId"> *@
+
+        <select name="categoryId" class="form-select"> 
+            @foreach (var item in (List<Category>)ViewData["categores"])
+            {
+                <option value="@item.Id"> @item.Name</option>
+
+          } 
+
+         </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('photoPreview');
+            output.style.display = 'block'; // Show the image preview
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

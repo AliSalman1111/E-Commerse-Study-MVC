@@ -7,46 +7,13 @@ namespace E_commerse_study.Repository
 {
 
 
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-        AplicationDbContext db;//= new AplicationDbContext();
-        public CategoryRepository(AplicationDbContext db) 
+
+      //  private readonly AplicationDbContext db;
+        public CategoryRepository(AplicationDbContext db) : base(db)
         {
-            this.db = db;
-        }
 
-        public List<Category> GetAll(string? products =null)
-        {
-            if (products == null)
-            {
-                return db.categories.ToList();
-            }
-            else
-            {
-                return db.categories.Include(products).ToList();
-            }
-        }
-        public Category? Getone(int Id) {
-
-            return db.categories.Find(Id);
-
-
-        }
-        public void Add(Category category) { 
-
-               db.categories.Add(category);
-        
-        }
-
-        public void Edit(Category category) {
-               db.categories.Update(category);
-        }
-        public void Delete(Category category) {
-            db.categories.Remove(category);
-        }
-        public void Commit()
-        {
-            db.SaveChanges();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace E_commerse_study.Controllers
         public IActionResult Index()
         {
            //var categories = db.categories.Include(e => e.Products).ToList();
-            var categories = CategoryRepository.GetAll("Products");
+            var categories = CategoryRepository.GetAll([e=>e.Products]);
             return View(categories);
 
         }
@@ -50,7 +50,7 @@ namespace E_commerse_study.Controllers
 
         public IActionResult Edit ( int Id)
         {
-            var category = CategoryRepository.Getone(Id);
+            var category = CategoryRepository.Getone(e=>e.Id== Id);
             return View(category);
         }
 

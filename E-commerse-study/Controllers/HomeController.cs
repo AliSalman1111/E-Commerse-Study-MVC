@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using E_commerse_study.Data;
 using E_commerse_study.Models;
+using E_commerse_study.Repository;
+using E_commerse_study.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerse_study.Controllers
@@ -9,16 +11,19 @@ namespace E_commerse_study.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-		AplicationDbContext db=new AplicationDbContext();
-		public HomeController(ILogger<HomeController> logger)
+        //AplicationDbContext db=new AplicationDbContext();
+
+        IProductRepositry ProductRepositry;
+
+		public HomeController(ILogger<HomeController> logger, IProductRepositry productRepositry)
         {
-            
+            ProductRepositry = productRepositry;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-        var products=  db.products.ToList();
+            var products = ProductRepositry.GetAll();
             return View(model: products);
         }
 
@@ -30,7 +35,16 @@ namespace E_commerse_study.Controllers
         public IActionResult Detailes(int Id)
 
         {
-         var product=  db.products.Find(Id);
+            var product = ProductRepositry.Getone(new Func<IQueryable<Product>, IQueryable<Product>>[]{
+
+
+
+            },
+            filter:e=>e.Id==Id
+            );
+
+
+
             if (product != null)
             {
                 return View(product);

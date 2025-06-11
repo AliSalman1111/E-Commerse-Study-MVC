@@ -15,18 +15,18 @@ namespace E_commerse_study.Data
 		public DbSet<Category> categories { get; set; }
         public DbSet<Company> companies { get; set; }
 
-        public AplicationDbContext()
-		{
+  //      public AplicationDbContext()
+		//{
 
-		}
+		//}
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			base.OnConfiguring(optionsBuilder);
+  //      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		//{
+		//	base.OnConfiguring(optionsBuilder);
 
-			var connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection");
+		//	var connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection");
 				
-				optionsBuilder.UseSqlServer(connection);
-		}
+		//		optionsBuilder.UseSqlServer(connection);
+		//}
 	}
 }

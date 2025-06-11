@@ -19,9 +19,19 @@ namespace E_commerse_study.Controllers
         }
         public IActionResult Index()
         {
-           //var categories = db.categories.Include(e => e.Products).ToList();
-            var categories = CategoryRepository.GetAll([e=>e.Products]);
-            return View(categories);
+            //var categories = db.categories.Include(e => e.Products).ToList();
+
+            //var categories = CategoryRepository.GetAll([e => e.Products]);
+            //return View(categories);
+            var categories = CategoryRepository.GetAll(new Func<IQueryable<Category>, IQueryable<Category>>[]
+     {
+                            q => q.Include(c => c.Products)
+                                 .ThenInclude(p => p.company)
+
+     });
+
+               return View(categories);
+
 
         }
         public IActionResult Create()
@@ -34,6 +44,7 @@ namespace E_commerse_study.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
+
 
             // Category category=new Category() { Name= CategoryName };
             //if (ModelState.IsValid)
@@ -48,11 +59,24 @@ namespace E_commerse_study.Controllers
         }
 
 
-        public IActionResult Edit ( int Id)
+        public IActionResult Edit(int Id)
         {
-            var category = CategoryRepository.Getone(e=>e.Id== Id);
+            var category = CategoryRepository.Getone(new Func<IQueryable<Category>, IQueryable<Category>>[]
+                {
+                    q => q.Include(c => c.Products)
+                     .ThenInclude(p => p.company)
+                },
+             filter: c => c.Id == Id
+            );
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
             return View(category);
         }
+
 
 
 

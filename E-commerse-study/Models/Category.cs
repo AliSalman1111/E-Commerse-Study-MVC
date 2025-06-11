@@ -14,5 +14,7 @@ namespace E_commerse_study.Models
         public string Name { get; set; }
 
 		public ICollection<Product> Products { get; set; }
-	}
+
+       
+    }
 }

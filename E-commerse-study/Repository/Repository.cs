@@ -3,6 +3,7 @@ using E_commerse_study.Data;
 using E_commerse_study.Models;
 using E_commerse_study.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace E_commerse_study.Repository
 {
@@ -18,35 +19,61 @@ namespace E_commerse_study.Repository
            dbset= db.Set<T>();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, object>>[]? products = null, Expression<Func<T, bool>>? expression = null)
+        public IEnumerable<T> GetAll(
+
+    Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
+    Expression<Func<T, bool>>? filter = null, bool tracked = true)
         {
             IQueryable<T> query = dbset;
-            if (products != null)
+
+            if (includes != null)
             {
-
-
-                foreach (var product in products)
+                foreach (var include in includes)
                 {
-                    query = query.Include(product);
-
+                    query = include(query);
                 }
-                return query.ToList();
+            }
 
 
-            }
-            else if(expression != null)
+            if (filter != null)
             {
-                return query.Where(expression).ToList();
+                query = query.Where(filter);
             }
-            else
+            if (!tracked)
             {
-                return query.ToList();
+                query = query.AsNoTracking();
             }
+
+            return query.ToList();
         }
-        public T? Getone(Expression <Func<T,bool>> expression)
-        {
 
-            return dbset.Where(expression).FirstOrDefault();
+
+
+        public T? Getone(Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
+    Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        {
+            IQueryable<T> query = dbset;
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = include(query);
+                }
+            }
+
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+}
+            //return query.ToList();
+            if (!tracked)
+            {
+                query = query.AsNoTracking();
+            }
+
+            return query.FirstOrDefault();
 
 
         }

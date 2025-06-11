@@ -5,18 +5,21 @@ namespace E_commerse_study.Repository.IRepository
 {
     public interface IRepositry<T> where T : class
     {
-        public IEnumerable<T> GetAll(Expression<Func<T, object>>[]? products = null, Expression<Func<T, bool>>? expression = null)
-;
-        public T? Getone(Expression<Func<T, bool>> expression);
+        IEnumerable<T> GetAll(
 
-        public void Add(T category);
+          Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
+          Expression<Func<T, bool>>? filter = null, bool tracked = true);
+         T? Getone(Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
+          Expression<Func<T, bool>>? filter = null, bool tracked = true);
+
+        void Add(T category);
 
 
-        public void Edit(T category);
+        void Edit(T category);
 
-        public void Delete(T category);
+         void Delete(T category);
 
-        public void Commit();
+        void Commit();
 
     }
 }

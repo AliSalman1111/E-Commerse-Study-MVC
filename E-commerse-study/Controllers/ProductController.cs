@@ -1,5 +1,7 @@
 ﻿using E_commerse_study.Data;
 using E_commerse_study.Models;
+using E_commerse_study.Repository;
+using E_commerse_study.Repository.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,19 +11,32 @@ namespace E_commerse_study.Controllers
 {
     public class ProductController : Controller
     {
-        AplicationDbContext db = new AplicationDbContext();
-        public IActionResult Index()
+        // AplicationDbContext db = new AplicationDbContext();
+
+        IProductRepositry ProductRepositry;
+        ICategoryRepository CategoryRepository;
+        public ProductController(IProductRepositry productRepositry,ICategoryRepository categoryRepository)
         {
+            this.ProductRepositry = productRepositry;
+            this.CategoryRepository = categoryRepository;
+        }
+        public IActionResult Index()
 
-            var products = db.products.Include(e => e.Category).ToList();
-
+        {
             ViewBag.Products = Request.Cookies["succes"];
+            var products = ProductRepositry.GetAll(new Func<IQueryable<Product>, IQueryable<Product>>[]
+{
+                       q => q.Include(c => c.Category)
+                            
+
+});
+
             return View(products);
         }
 
         public IActionResult Create()
         {
-           var categores= db.categories.ToList().Select(e=>new SelectListItem { Text=e.Name,Value=e.Id.ToString()});
+           var categores= CategoryRepository.GetAll().Select(e=>new SelectListItem { Text=e.Name,Value=e.Id.ToString()});
             ViewBag.categores = categores;
             Product product = new Product();
             return View(product);
@@ -51,12 +66,12 @@ namespace E_commerse_study.Controllers
                     product.photo = fileName;
                 }
                 // Category category=new Category() { Name= CategoryName };
-                db.products.Add(product);
-                db.SaveChanges();
+                ProductRepositry.Add(product);
+                ProductRepositry.Commit();
                 TempData["succes"] = "Add Product Succesfuly";
                 return RedirectToAction("Index");
             }
-            var categores = db.categories.ToList();
+            var categores = CategoryRepository.GetAll();
             ViewBag.categores = categores;
            // Product product = new Product();
             return View(product);
@@ -64,8 +79,16 @@ namespace E_commerse_study.Controllers
 
         public IActionResult Edit(int Id)
         {
-            var product = db.products.Find(Id);
-            var categores = db.categories.ToList();
+            var product = ProductRepositry.Getone(new Func<IQueryable<Product>, IQueryable<Product>>[]
+{
+                       q => q.Include(c => c.Category)
+
+
+},
+filter: c => c.Id == Id
+
+);
+            var categores = CategoryRepository.GetAll();
             ViewData["categores"] = categores;
           // TempData["id"] = "Ali Salman";
             return View(product);
@@ -74,16 +97,25 @@ namespace E_commerse_study.Controllers
 
 
         [HttpPost]
-        public IActionResult Edit(Product product, IFormFile photo)
+        public IActionResult Edit(Product product, IFormFile photo,int Id)
         {
-            var oldproduct = db.products.AsNoTracking().FirstOrDefault(e => e.Id == product.Id);
+            var oldproduct = ProductRepositry.Getone(new Func<IQueryable<Product>, IQueryable<Product>>[]
+{
+                       q => q.Include(c => c.Category)
+
+
+},
+       filter: c => c.Id == product.Id
+       , tracked: false
+
+);
             // product.photo = oldproduct.photo;
 
-            if (ModelState.IsValid)
-            {
+            // if (ModelState.IsValid)
+            // {
 
 
-                if (photo != null && photo.Length > 0)
+            if (photo != null && photo.Length > 0)
                 {
                     // var filePath = Path.GetTempFileName();
 
@@ -109,10 +141,10 @@ namespace E_commerse_study.Controllers
 
                     product.photo = oldproduct.photo;
                 }
-                // Category category=new Category() { Name= CategoryName };
-                db.products.Update(product);
-                db.SaveChanges();
-                TempData["Succes"] = "Edit Product Succesfuly";
+            // Category category=new Category() { Name= CategoryName };
+            ProductRepositry.Edit(product);
+            ProductRepositry.Commit();
+              TempData["Succes"] = "Edit Product Succesfuly";
                 CookieOptions cookieOptions = new CookieOptions();
                 cookieOptions.Expires = DateTime.Now.AddMinutes(1);
 
@@ -120,12 +152,12 @@ namespace E_commerse_study.Controllers
                 return RedirectToAction("Index");
             }
             
-            var categores = db.categories.ToList();
-            ViewData["categores"] = categores;
-            product.photo = oldproduct.photo;
+        //    var categores = db.categories.ToList();
+        //    ViewData["categores"] = categores;
+        //    product.photo = oldproduct.photo;
 
-            return View(product);
-        }
+        //    return View(product);
+        //}
 
 
 
@@ -135,7 +167,15 @@ namespace E_commerse_study.Controllers
 
         public IActionResult Delete(int Id)
         {
-            var product = db.products.Find(Id);
+            var product = ProductRepositry.Getone(new Func<IQueryable<Product>, IQueryable<Product>>[]
+{
+                       q => q.Include(c => c.Category)
+
+
+},
+filter: c => c.Id == Id
+
+);
             // Category category=new Category() { Name= CategoryName };
             var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", product.photo);
 
@@ -145,8 +185,8 @@ namespace E_commerse_study.Controllers
 
             }
 
-            db.products.Remove(product);
-            db.SaveChanges();
+            ProductRepositry.Delete(product);
+            ProductRepositry.Commit();
             TempData["Succes"] = "Delete Product Succesfuly";
             return RedirectToAction("Index");
         }

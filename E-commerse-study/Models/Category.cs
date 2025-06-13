@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace E_commerse_study.Models
 {
@@ -12,8 +13,8 @@ namespace E_commerse_study.Models
 		[MaxLength(25)]
        // [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
-
-		public ICollection<Product> Products { get; set; }
+        [ValidateNever]
+        public ICollection<Product> Products { get; set; }
 
        
     }

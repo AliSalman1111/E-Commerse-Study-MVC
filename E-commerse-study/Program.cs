@@ -1,6 +1,8 @@
 using E_commerse_study.Data;
+using E_commerse_study.Models;
 using E_commerse_study.Repository;
 using E_commerse_study.Repository.IRepository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerse_study
@@ -17,6 +19,11 @@ namespace E_commerse_study
                option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                );
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option => { option.Password.RequiredLength = 7;
+            
+          
+            
+            }).AddEntityFrameworkStores<AplicationDbContext>();
 
             builder.Services.AddScoped<IProductRepositry, ProductRepositry>();
             builder.Services.AddScoped<ICompanyRepositry, CompanyRepositry>();

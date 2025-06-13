@@ -2,11 +2,15 @@
 using E_commerse_study.Models;
 using E_commerse_study.Repository;
 using E_commerse_study.Repository.IRepository;
+using E_commerse_study.Static_Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_commerse_study.Controllers
 {
+    [Authorize(Roles = $"{SD.AdminRole},{SD.CompanyRole}")]
+
     public class CategoryController : Controller
     {
         // AplicationDbContext db = new AplicationDbContext();

@@ -2,6 +2,8 @@
 using E_commerse_study.Models;
 using E_commerse_study.Repository;
 using E_commerse_study.Repository.IRepository;
+using E_commerse_study.Static_Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_commerse_study.Controllers
 {
+    [Authorize(Roles = $"{SD.AdminRole},{SD.CompanyRole}")]
     public class ProductController : Controller
     {
         // AplicationDbContext db = new AplicationDbContext();

@@ -14,6 +14,8 @@ namespace E_commerse_study.Repository
         public CategoryRepository(AplicationDbContext db) : base(db)
         {
 
+
         }
+
     }
 }

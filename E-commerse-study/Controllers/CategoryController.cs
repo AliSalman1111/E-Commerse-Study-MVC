@@ -34,7 +34,7 @@ namespace E_commerse_study.Controllers
 
      });
 
-               return View(categories);
+               return View(categories.ToList());
 
 
         }

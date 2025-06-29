@@ -17,21 +17,28 @@ namespace E_commerse_study.Data
         public DbSet<Product> products { get; set; }
 		public DbSet<Category> categories { get; set; }
         public DbSet<Company> companies { get; set; }
-	    public DbSet<E_commerse_study.ViewModel.ApplicatinUserVM> ApplicatinUserVM { get; set; } = default!;
-	    public DbSet<E_commerse_study.ViewModel.loginVM> loginVM { get; set; } = default!;
 
-  //      public AplicationDbContext()
-		//{
+        public DbSet<Cart> Cart { get; set; }
+        //      public AplicationDbContext()
+        //{
 
-		//}
+        //}
 
-  //      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		//{
-		//	base.OnConfiguring(optionsBuilder);
+        //      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //	base.OnConfiguring(optionsBuilder);
 
-		//	var connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection");
-				
-		//		optionsBuilder.UseSqlServer(connection);
-		//}
-	}
+        //	var connection = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection");
+
+        //		optionsBuilder.UseSqlServer(connection);
+        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Cart>()
+                .HasKey(c => new { c.ProductId, c.ApplicationUserId });
+        }
+
+    }
 }

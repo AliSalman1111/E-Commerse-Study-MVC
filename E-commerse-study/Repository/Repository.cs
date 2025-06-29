@@ -16,13 +16,13 @@ namespace E_commerse_study.Repository
         public Repository(AplicationDbContext db)
         {
             this.db = db;
-           dbset= db.Set<T>();
+           dbset= db.Set<T>();  
         }
 
-        public IEnumerable<T> GetAll(
-
-    Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
-    Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        public IQueryable<T> GetAll(
+         Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
+         Expression<Func<T, bool>>? filter = null,
+         bool tracked = true)
         {
             IQueryable<T> query = dbset;
 
@@ -34,18 +34,19 @@ namespace E_commerse_study.Repository
                 }
             }
 
-
             if (filter != null)
             {
                 query = query.Where(filter);
             }
+
             if (!tracked)
             {
                 query = query.AsNoTracking();
             }
 
-            return query.ToList();
+            return query; 
         }
+
 
 
 

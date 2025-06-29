@@ -27,6 +27,7 @@ namespace E_commerse_study
 
             builder.Services.AddScoped<IProductRepositry, ProductRepositry>();
             builder.Services.AddScoped<ICompanyRepositry, CompanyRepositry>();
+            builder.Services.AddScoped<ICartRepository, cartRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

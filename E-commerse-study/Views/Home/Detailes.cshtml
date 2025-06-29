@@ -1,4 +1,5 @@
-﻿<div class="card mb-3 col-12" >
+﻿
+<div class="card mb-3 col-12" >
     <div class="row g-0">
         <div class="col-md-4">
             <img src="~/images/@Model.photo" class="img-fluid rounded-start" height="300px" alt="...">
@@ -13,4 +14,12 @@
             </div>
         </div>
     </div>
+
+    <form method="post" action="/Cart/AddToCart" class="mb-1 w-25 mx-auto mt-1">
+        <div class="input-group">
+            <input type="number" name="count" class="form-control" placeholder="count..." />
+            <input type="hidden" name="productId" class="form-control" placeholder="count..." value="@Model.Id" />
+            <button type="submit" class="btn btn-primary">go to cart </button>
+        </div>
+    </form>
 </div>

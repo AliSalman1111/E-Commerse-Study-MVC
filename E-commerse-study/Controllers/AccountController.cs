@@ -79,11 +79,11 @@ namespace E_commerse_study.Controllers
         {
             if (ModelState.IsValid) {
               //1.chrck user name 
-         var applicationuser =await UserManager.FindByNameAsync(loginVM.UserName);
+                 var applicationuser =await UserManager.FindByNameAsync(loginVM.UserName);
 
                 if (applicationuser != null) {
                     //2. check password
-               var result=   await  UserManager.CheckPasswordAsync(applicationuser, loginVM.passward);
+                var result=   await  UserManager.CheckPasswordAsync(applicationuser, loginVM.passward);
                     if (result)
                     {
                         // 3login

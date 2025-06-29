@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace E_commerse_study.Controllers
 {
@@ -23,18 +24,48 @@ namespace E_commerse_study.Controllers
             this.ProductRepositry = productRepositry;
             this.CategoryRepository = categoryRepository;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page,string? search=null)
 
         {
-            ViewBag.Products = Request.Cookies["succes"];
+
+            if (page <= 0)
+            
+                page = 1;
+
+            int pageSize = 5;
+            int totalProducts = ProductRepositry.GetAll().Count(); // نحسب العدد الكلي
+
+            int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = page;
+           ViewBag.Products = Request.Cookies["succes"];
+
+
             var products = ProductRepositry.GetAll(new Func<IQueryable<Product>, IQueryable<Product>>[]
 {
                        q => q.Include(c => c.Category)
-                            
+        });
 
-});
+            if(search != null)
+            {
+                search= search.TrimStart();
+                search = search.TrimEnd();
+               
+                products = products.Where(e=>e.Name.Contains(search) ||e.Description.Contains(search) || e.Category.Name.Contains(search) );
+            }
+                      products = products.Skip((page - 1) * 5).Take(5);
 
-            return View(products);
+                if (products.Any())
+                  {
+                   return View(products.ToList());
+                    }
+
+            else
+            {
+                return RedirectToAction("NotFountPage","Home");
+            }
+           
         }
 
         public IActionResult Create()

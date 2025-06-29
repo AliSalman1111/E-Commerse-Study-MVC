@@ -1,4 +1,11 @@
-﻿ 
+﻿@section Scripts {
+    @if (TempData["Succes"] != null)
+    {
+        <script>
+            toastr.success(  '@TempData["Succes"]')
+        </script>
+    }
+    }
 <div class="row">
 
     @foreach (var item in Model)

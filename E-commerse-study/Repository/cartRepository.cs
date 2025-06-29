@@ -4,9 +4,9 @@ using E_commerse_study.Repository.IRepository;
 
 namespace E_commerse_study.Repository
 {
-    public class CompanyRepositry : Repository<Company>, ICompanyRepositry
+    public class cartRepository : Repository<Cart>, ICartRepository
     {
-        public CompanyRepositry(AplicationDbContext db) : base(db)
+        public cartRepository(AplicationDbContext db) : base(db)
         {
         }
     }

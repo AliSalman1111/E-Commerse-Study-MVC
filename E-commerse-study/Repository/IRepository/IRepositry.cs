@@ -5,7 +5,7 @@ namespace E_commerse_study.Repository.IRepository
 {
     public interface IRepositry<T> where T : class
     {
-        IEnumerable<T> GetAll(
+        IQueryable<T> GetAll(
 
           Func<IQueryable<T>, IQueryable<T>>[]? includes = null,
           Expression<Func<T, bool>>? filter = null, bool tracked = true);

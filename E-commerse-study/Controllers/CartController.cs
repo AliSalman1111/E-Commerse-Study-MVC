@@ -38,6 +38,7 @@ namespace E_commerse_study.Controllers
         }
         public IActionResult Index()
         {
+
             var userid=userManager.GetUserId(User);
 
 
@@ -49,6 +50,82 @@ var products = CartRepository.GetAll(new Func<IQueryable<Cart>, IQueryable<Cart>
      ViewBag.products= products.Sum(x=>x.Product.price*x.count);
             return View(products.ToList());
 
+        }
+
+        public IActionResult Increment(int Id)
+        {
+
+            var userid = userManager.GetUserId(User);
+            var product = CartRepository.Getone(new Func<IQueryable<Cart>, IQueryable<Cart>>[]
+            {
+
+            },filter: e=>e.ApplicationUserId== userid && e.ProductId== Id
+          
+
+            ) ;
+            if (product != null)
+            {
+                product.count++;
+                CartRepository.Commit();
+                return RedirectToAction("Index");
+
+            }
+
+            return RedirectToAction("NotFountPage", "Home");
+        }
+
+
+
+        public IActionResult Decress(int Id)
+        {
+
+            var userid = userManager.GetUserId(User);
+            var product = CartRepository.Getone(new Func<IQueryable<Cart>, IQueryable<Cart>>[]
+            {
+
+            }, filter: e => e.ApplicationUserId == userid && e.ProductId == Id
+
+
+            );
+            if (product != null)
+            {
+                product.count--;
+
+                if (product.count > 0)
+
+                    CartRepository.Commit();
+                else
+                    product.count = 1;
+               
+                return RedirectToAction("Index");
+
+            }
+
+            return RedirectToAction("NotFountPage", "Home");
+        }
+
+
+       
+        public IActionResult Delete(int Id)
+        {
+
+            var userid = userManager.GetUserId(User);
+            var product = CartRepository.Getone(new Func<IQueryable<Cart>, IQueryable<Cart>>[]
+            {
+
+            }, filter: e => e.ApplicationUserId == userid && e.ProductId == Id
+
+
+            );
+            if (product != null)
+            {
+                CartRepository.Delete(product);
+                CartRepository.Commit();
+                return RedirectToAction("Index");
+
+            }
+
+            return RedirectToAction("NotFountPage", "Home");
         }
     }
 }

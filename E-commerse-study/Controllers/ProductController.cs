@@ -33,7 +33,7 @@ namespace E_commerse_study.Controllers
                 page = 1;
 
             int pageSize = 5;
-            int totalProducts = ProductRepositry.GetAll().Count(); // نحسب العدد الكلي
+            int totalProducts = ProductRepositry.GetAll().Count(); 
 
             int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
 
@@ -123,7 +123,7 @@ filter: c => c.Id == Id
 
 );
             var categores = CategoryRepository.GetAll();
-            ViewData["categores"] = categores;
+            ViewData["categores"] = categores.ToList();
           // TempData["id"] = "Ali Salman";
             return View(product);
         }

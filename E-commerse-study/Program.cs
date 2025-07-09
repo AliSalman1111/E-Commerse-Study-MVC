@@ -29,6 +29,8 @@ namespace E_commerse_study
 
             builder.Services.AddScoped<IProductRepositry, ProductRepositry>();
             builder.Services.AddScoped<ICompanyRepositry, CompanyRepositry>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<ICartRepository, cartRepository>();
 
             builder.Services.Configure<secretkey>(builder.Configuration.GetSection("Stripe"));

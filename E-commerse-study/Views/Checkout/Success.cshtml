@@ -5,4 +5,11 @@
 <h2>Payment Successful ✅</h2>
 <p>Thank you for your purchase! Your payment has been processed successfully.</p>
 <a href="/">Back to Home</a>
-
+<script>
+    // أول ما الصفحة تفتح، ابعت طلب POST للأكشن Successes
+    window.onload = function () {
+        fetch('/checkout/successes', {
+            method: 'POST'
+        });
+    }
+</script>

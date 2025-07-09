@@ -2,8 +2,10 @@ using E_commerse_study.Data;
 using E_commerse_study.Models;
 using E_commerse_study.Repository;
 using E_commerse_study.Repository.IRepository;
+using E_commerse_study.Static_Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace E_commerse_study
 {
@@ -28,6 +30,11 @@ namespace E_commerse_study
             builder.Services.AddScoped<IProductRepositry, ProductRepositry>();
             builder.Services.AddScoped<ICompanyRepositry, CompanyRepositry>();
             builder.Services.AddScoped<ICartRepository, cartRepository>();
+
+            builder.Services.Configure<secretkey>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using Stripe.Checkout;
 
 namespace E_commerse_study.Controllers
 {
@@ -30,6 +31,7 @@ namespace E_commerse_study.Controllers
                 ApplicationUserId = userManager.GetUserId(User)
 
             };
+
             CartRepository.Add(cart);
             CartRepository.Commit();
             TempData["Succes"] = "Add To Cart Successfuly ";
@@ -63,6 +65,7 @@ var products = CartRepository.GetAll(new Func<IQueryable<Cart>, IQueryable<Cart>
           
 
             ) ;
+
             if (product != null)
             {
                 product.count++;
@@ -127,5 +130,51 @@ var products = CartRepository.GetAll(new Func<IQueryable<Cart>, IQueryable<Cart>
 
             return RedirectToAction("NotFountPage", "Home");
         }
+        
+        public IActionResult Pay()
+        {
+
+            var userid = userManager.GetUserId(User);
+
+
+
+            var products = CartRepository.GetAll(new Func<IQueryable<Cart>, IQueryable<Cart>>[]
+            {
+    q=>q.Include(x=>x.Product).Where(e=>e.ApplicationUserId == userid)
+            });
+
+            var options = new SessionCreateOptions
+            {
+                PaymentMethodTypes = new List<string> { "card" },
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = $"{Request.Scheme}://{Request.Host}/checkout/success",
+                CancelUrl = $"{Request.Scheme}://{Request.Host}/checkout/cancel",
+            };
+
+            foreach (var item in products.ToList())
+            {
+                options.LineItems.Add(new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        Currency = "egp",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = item.Product.Name,
+                            Description = item.Product.Description,
+                        },
+                        UnitAmount = (long)item.Product.price * 100,
+                    },
+                    Quantity = item.count,
+
+                });
+            }
+            var service = new SessionService();
+            var session = service.Create(options);
+            return Redirect(session.Url);
+        }
+           
+        
     }
 }

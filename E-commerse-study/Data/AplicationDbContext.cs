@@ -17,6 +17,8 @@ namespace E_commerse_study.Data
         public DbSet<Product> products { get; set; }
 		public DbSet<Category> categories { get; set; }
         public DbSet<Company> companies { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public DbSet<Cart> Cart { get; set; }
         //      public AplicationDbContext()

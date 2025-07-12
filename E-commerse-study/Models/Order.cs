@@ -12,6 +12,8 @@
 
             public decimal TotalAmount { get; set; }
 
+        public string? status { get; set; } = "Pending";
+
             public ICollection<OrderItem> OrderItems { get; set; }
         }
 

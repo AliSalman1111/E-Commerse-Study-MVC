@@ -2,6 +2,7 @@ using E_commerse_study.Data;
 using E_commerse_study.Models;
 using E_commerse_study.Repository;
 using E_commerse_study.Repository.IRepository;
+using E_commerse_study.Serveses;
 using E_commerse_study.Static_Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,11 +22,16 @@ namespace E_commerse_study
                option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                );
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option => { option.Password.RequiredLength = 7;
-            
-          
-            
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireDigit = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredUniqueChars = 1;
             }).AddEntityFrameworkStores<AplicationDbContext>();
+
 
             builder.Services.AddScoped<IProductRepositry, ProductRepositry>();
             builder.Services.AddScoped<ICompanyRepositry, CompanyRepositry>();
@@ -36,7 +42,7 @@ namespace E_commerse_study
             builder.Services.Configure<secretkey>(builder.Configuration.GetSection("Stripe"));
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
-
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

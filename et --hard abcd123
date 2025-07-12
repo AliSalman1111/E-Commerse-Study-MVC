@@ -1,0 +1,21 @@
+[33md090c1e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: reset: moving to origin/master
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{1}: checkout: moving from 7ba2cb8c0ffe63f4b79cd1c775c643c2bf7662ee to master
+[33m7ba2cb8[m HEAD@{2}: revert: Revert "i finsh cart"
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{3}: checkout: moving from master to c9a7795c167bf6888da240cebb62020b1d4c321f
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{4}: checkout: moving from master to master
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{5}: checkout: moving from fix-cart to master
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{6}: checkout: moving from master to fix-cart
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{7}: checkout: moving from master to master
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{8}: checkout: moving from bransh to master
+[33m6c433e8[m[33m ([m[1;32mbransh[m[33m)[m HEAD@{9}: commit: dd
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{10}: checkout: moving from master to bransh
+[33mc9a7795[m[33m ([m[1;32mfix-cart[m[33m)[m HEAD@{11}: commit: i finsh cart
+[33m7a73141[m HEAD@{12}: commit: Complete cart and generate Order Class
+[33md090c1e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{13}: commit: I create cart
+[33m6250450[m HEAD@{14}: commit: Cart
+[33m8675304[m HEAD@{15}: commit: I Finsh Login Register
+[33m08c4253[m HEAD@{16}: commit: finish SOLD
+[33md258245[m HEAD@{17}: commit: .
+[33m9f5d5d0[m HEAD@{18}: commit: I Start solid in category controler
+[33m94b9386[m HEAD@{19}: commit: Add project files.
+[33m7fbeaa3[m HEAD@{20}: commit (initial): Add .gitattributes and .gitignore.

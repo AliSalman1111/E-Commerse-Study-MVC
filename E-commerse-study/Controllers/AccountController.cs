@@ -55,7 +55,7 @@ namespace E_commerse_study.Controllers
                 if (result.Succeeded)
                 {
                   await  UserManager.AddToRoleAsync(applicationUser, SD.CustomerRole);
-                    await SignInManager.SignInAsync(applicationUser, false);
+                    await SignInManager.SignInAsync(applicationUser, true);
                     return   RedirectToAction("Index", "Home");
                 }
                 else

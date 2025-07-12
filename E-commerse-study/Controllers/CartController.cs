@@ -16,28 +16,51 @@ namespace E_commerse_study.Controllers
 
         ICartRepository CartRepository;
         UserManager<ApplicationUser> userManager;
-        public CartController(ICartRepository cartRepository,UserManager<ApplicationUser> userManager) {
+        IProductRepositry productRepositry;
+        public CartController(ICartRepository cartRepository,UserManager<ApplicationUser> userManager, IProductRepositry productRepositry) {
             CartRepository = cartRepository;
             this.userManager = userManager;
+            this.productRepositry = productRepositry;
         }
-       
+
         [HttpPost]
-        public IActionResult AddToCart(int count ,int productId)
+        public IActionResult AddToCart(int count, int productId)
         {
+
+            var product = productRepositry.Getone(new Func<IQueryable<Product>, IQueryable<Product>>[]
+            {
+
+
+            }
+            ,filter:e=>e.Id== productId); 
+
+            if (product == null)
+            {
+                TempData["Error"] = "Product not found.";
+                return RedirectToAction("Index", "Home");
+            }
+
+          
+            if (count > product.countaty)
+            {
+                TempData["Error"] = "Requested quantity exceeds available stock.";
+                return RedirectToAction("Index", "Home");
+            }
+
+           
             Cart cart = new Cart()
             {
                 ProductId = productId,
                 count = count,
                 ApplicationUserId = userManager.GetUserId(User)
-
             };
 
             CartRepository.Add(cart);
             CartRepository.Commit();
-            TempData["Succes"] = "Add To Cart Successfuly ";
+            TempData["Succes"] = "Add To Cart Successfully";
             return RedirectToAction("Index", "Home");
-
         }
+
         public IActionResult Index()
         {
 

@@ -25,7 +25,7 @@ namespace E_commerse_study.Controllers
             {
                 q=>q.Include(c=>c.Products)
             });
-            return View(companes);
+            return View(companes.ToList());
         }
         public IActionResult Create()
         {

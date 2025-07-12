@@ -24,6 +24,11 @@
         <span asp-validation-for="price" class="text-warning"></span>
     </div>
     <div class="mb-3">
+        <label for="exampleInputprice" class="form-label">Quantity</label>
+        <input type="number" class="form-control" id="exampleInputprice" name="countaty" aria-describedby="emailHelp" value="@Model.countaty">
+        <span asp-validation-for="countaty" class="text-warning"></span>
+    </div>
+    <div class="mb-3">
         <label for="exampleInputcategoryId" class="form-label">Category Name</label>
 
         @* <select name="categoryId" class="form-select"> *@

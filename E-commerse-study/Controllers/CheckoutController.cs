@@ -64,9 +64,13 @@ namespace E_commerse_study.Controllers
                     Quantity = item.count,
                     UnitPrice = (decimal)item.Product.price
                 });
+
+                
+                item.Product.countaty -= item.count;
             }
 
-        
+
+
             orderRepository.Add(order);
             orderRepository.Commit();
             string htmlContent = $@"

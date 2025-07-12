@@ -30,14 +30,14 @@
                         </li>
                         <li class="nav-item mx-2">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index"> <i class="bi bi-cart3"></i></a>
-                           
+
                         </li>
 
                         @if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.CompanyRole))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button"
-                                   aria-haspopup="true" aria-expanded="false">MangmentSystem</a>
+                                aria-haspopup="true" aria-expanded="false">MangmentSystem</a>
                                 <div class="dropdown-menu ">
                                     <a class="dropdown-item" href="/Category/Index">Category</a>
                                     <a class="dropdown-item" href="/Product/Index">Product</a>
@@ -46,6 +46,12 @@
                             </li>
 
                             <li><a class="nav-link" href="/Order/Index">Order Detalse</a></li>
+                        }
+
+                        @if (User.IsInRole(SD.CustomerRole) )
+                        {
+                            <li><a class="nav-link" href="/Order/Index2">Order Detalse</a></li>
+                        
                         }
                     </ul>
                     <ul class="navbar-nav ">

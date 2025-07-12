@@ -21,10 +21,33 @@ namespace E_commerse_study.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index (int page)
         {
+
+            if (page <= 0)
+
+                page = 1;
+
+            int pageSize = 6;
+            int totalProducts = ProductRepositry.GetAll().Count();
+
+            int totalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.CurrentPage = page;
+            ViewBag.Products = Request.Cookies["succes"];
             var products = ProductRepositry.GetAll();
-            return View(model: products);
+
+            products = products.Skip((page - 1) * 6).Take(6);
+
+            if (products.Any())
+            {
+                return View(products.ToList());
+            }
+            else
+            {
+                return RedirectToAction("NotFountPage");
+            }
         }
 
         public IActionResult Privacy()

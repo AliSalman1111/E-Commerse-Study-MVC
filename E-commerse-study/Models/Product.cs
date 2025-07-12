@@ -18,7 +18,7 @@ namespace E_commerse_study.Models
 		[Range(0, 1000000)]
 		public double price { get; set; }
         public int categoryId { get; set; }
-
+        public int? countaty { get; set; }
         public int? companyId { get; set; }
         [ValidateNever]
         public Category Category { get; set; }
